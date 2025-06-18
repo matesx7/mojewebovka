@@ -1,74 +1,190 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8">
-  <title>dejna.fun</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moje stránka</title>
   <style>
-    body {
+    * {
       margin: 0;
-      background-color: #111;
-      color: #fff;
-      font-family: sans-serif;
-      transition: background-color 0.8s, color 0.8s;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      height: 100vh;
       overflow: hidden;
-    }
-
-    .cord {
-      position: absolute;
-      top: -100px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 4px;
-      height: 200px;
-      background-color: #aaa;
-      animation: swing 2s infinite ease-in-out;
-      transform-origin: top;
-      cursor: pointer;
-    }
-
-    .knob {
-      position: absolute;
-      bottom: 0;
-      left: -8px;
-      width: 20px;
-      height: 20px;
-      background-color: #ccc;
-      border-radius: 50%;
-      border: 2px solid #666;
-    }
-
-    @keyframes swing {
-      0%, 100% { transform: translateX(-50%) rotate(-10deg); }
-      50% { transform: translateX(-50%) rotate(10deg); }
-    }
-
-    body.light {
-      background-color: #f0f0f0;
+      transition: background 1s, color 1s;
+      background: linear-gradient(#87CEEB, #ffffff);
       color: #000;
+      position: relative;
     }
 
-    .info {
+    .sky {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .cloud {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: moveClouds 60s linear infinite;
+    }
+
+    .cloud::before, .cloud::after {
+      content: '';
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+    }
+
+    .cloud1 {
+      top: 20%;
+      left: -200px;
+      width: 100px;
+      height: 60px;
+    }
+
+    .cloud1::before {
+      width: 60px;
+      height: 60px;
+      top: -20px;
+      left: 20px;
+    }
+
+    .cloud1::after {
+      width: 70px;
+      height: 70px;
+      top: 10px;
+      left: 50px;
+    }
+
+    .cloud2 {
+      top: 50%;
+      left: -300px;
+      width: 120px;
+      height: 70px;
+      animation-delay: 15s;
+    }
+
+    .cloud2::before {
+      width: 70px;
+      height: 70px;
+      top: -15px;
+      left: 25px;
+    }
+
+    .cloud2::after {
+      width: 80px;
+      height: 80px;
+      top: 20px;
+      left: 55px;
+    }
+
+    @keyframes moveClouds {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(150%); }
+    }
+
+    .sun, .moon {
+      position: absolute;
+      top: 50px;
+      right: 50px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: yellow;
+      box-shadow: 0 0 30px rgba(255, 255, 0, 0.8);
+      cursor: pointer;
+      transition: background 1s, box-shadow 1s;
+      z-index: 2;
+    }
+
+    .sun::before {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      top: -20px;
+      left: -20px;
+      border-radius: 50%;
+      border: 2px dashed rgba(255, 255, 0, 0.5);
+      animation: rotateRays 10s linear infinite;
+    }
+
+    @keyframes rotateRays {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .moon {
+      background: #ccc;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    }
+
+    #content {
       position: absolute;
       bottom: 40px;
       width: 100%;
       text-align: center;
-      font-size: 1.2em;
+      z-index: 1;
+    }
+
+    #content div {
+      margin: 10px;
+      font-size: 1.5em;
+    }
+
+    body.dark {
+      background: linear-gradient(#0d0d0d, #1a1a1a);
+      color: #fff;
+    }
+
+    body.dark .sun {
+      display: none;
+    }
+
+    body.dark .moon {
+      display: block;
+    }
+
+    .moon {
+      display: none;
+    }
+
+    body.light .moon {
+      display: none;
+    }
+
+    body.light .sun {
+      display: block;
     }
   </style>
 </head>
-<body>
-  <div class="cord" onclick="toggleLight()">
-    <div class="knob"></div>
+<body class="light">
+  <div class="sky">
+    <div class="cloud cloud1"></div>
+    <div class="cloud cloud2"></div>
   </div>
 
-  <div class="info">
-    <p>Datum: 18. 6. 2025</p>
-    <p>Jméno: Matěj Dejnožka</p>
-    <p>Zprostředkovatel: Github</p>
+  <div class="sun" onclick="prepnoutRezim()" id="switcher"></div>
+  <div class="moon" onclick="prepnoutRezim()" id="switcherMoon"></div>
+
+  <div id="content">
+    <div id="datum">18. 6. 2025</div>
+    <div id="jmeno">Matěj</div>
+    <div id="sprostredkovatel">Zprostředkovatel: Jan Novák</div>
   </div>
 
   <script>
-    function toggleLight() {
+    function prepnoutRezim() {
+      document.body.classList.toggle("dark");
       document.body.classList.toggle("light");
     }
   </script>
