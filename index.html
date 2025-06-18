@@ -2,23 +2,75 @@
 <html lang="cs">
 <head>
   <meta charset="UTF-8">
-  <title>Osobní stránka</title>
+  <title>dejna.fun</title>
   <style>
     body {
-      background-color: #121212;
-      color: white;
+      margin: 0;
+      background-color: #111;
+      color: #fff;
       font-family: sans-serif;
-      text-align: center;
-      padding-top: 100px;
+      transition: background-color 0.8s, color 0.8s;
+      overflow: hidden;
     }
-    h1, p {
-      margin: 10px;
+
+    .cord {
+      position: absolute;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 200px;
+      background-color: #aaa;
+      animation: swing 2s infinite ease-in-out;
+      transform-origin: top;
+      cursor: pointer;
+    }
+
+    .knob {
+      position: absolute;
+      bottom: 0;
+      left: -8px;
+      width: 20px;
+      height: 20px;
+      background-color: #ccc;
+      border-radius: 50%;
+      border: 2px solid #666;
+    }
+
+    @keyframes swing {
+      0%, 100% { transform: translateX(-50%) rotate(-10deg); }
+      50% { transform: translateX(-50%) rotate(10deg); }
+    }
+
+    body.light {
+      background-color: #f0f0f0;
+      color: #000;
+    }
+
+    .info {
+      position: absolute;
+      bottom: 40px;
+      width: 100%;
+      text-align: center;
+      font-size: 1.2em;
     }
   </style>
 </head>
 <body>
-  <h1>📅 Datum: 18. 6. 2025</h1>
-  <p>👤 Moje jméno: Matěj Dejnožka</p>
-  <p>🤝 Zprostředkovatel: Github</p>
+  <div class="cord" onclick="toggleLight()">
+    <div class="knob"></div>
+  </div>
+
+  <div class="info">
+    <p>Datum: 18. 6. 2025</p>
+    <p>Jméno: Matěj Dejnožka</p>
+    <p>Zprostředkovatel: Github</p>
+  </div>
+
+  <script>
+    function toggleLight() {
+      document.body.classList.toggle("light");
+    }
+  </script>
 </body>
 </html>
